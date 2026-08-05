@@ -135,7 +135,7 @@ async def async_main(cutoff_date: str, chunk_days: int, concurrency: int) -> Non
     pm_tenures = read_ndjson(PM_TENURES_PATH)
     semaphore = asyncio.Semaphore(concurrency)
     async with httpx.AsyncClient() as client:
-        await asyncio.gather(
+        results = await asyncio.gather(
             *[
                 fetch_pm_contributions(
                     client, semaphore, pm, cutoff_date, chunk_days, CONTRIBUTIONS_DIR
@@ -144,6 +144,9 @@ async def async_main(cutoff_date: str, chunk_days: int, concurrency: int) -> Non
             ],
             return_exceptions=True,
         )
+    for pm, result in zip(pm_tenures, results, strict=True):
+        if isinstance(result, Exception):
+            log.error("Failed to fetch contributions for %s: %s", pm["pm_name"], result)
 
 
 def main() -> None:
