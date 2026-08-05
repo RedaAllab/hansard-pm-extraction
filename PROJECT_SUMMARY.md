@@ -69,7 +69,7 @@ Full technical detail — stack, conventions, constraints — lives in `CLAUDE.m
 | 2 | Corpus construction: cleaning, deduplication, debate-type tagging | 1 | Done, in `hansard-pm-nlp` repo (sibling folder) |
 | 3 | EDA & lexical baseline | 2 | Done, in `hansard-pm-nlp` (`data/processed/eda_report.md`) |
 | 4 | Sentiment / affect / hedging layer | 3 | Done, in `hansard-pm-nlp` (`data/processed/affect_report.md`) |
-| 5 | Topic modeling (LDA vs. BERTopic) | 3 | Not started |
+| 5 | Topic modeling (LDA vs. BERTopic) | 3 | Done, in `hansard-pm-nlp` (`data/processed/phase5_topic_comparison_report.md`) — LDA (K=14) chosen |
 | 6 | Style features & supervised PM classifier | 3 | Not started |
 | 7 | Event-study statistical modeling | 4, 5, 6 | Not started |
 | 8 | Interactive dashboard | 4–7 | Not started |
