@@ -2,6 +2,16 @@
 
 Async extraction of UK Prime Ministers' Hansard contributions (2019-present) into a versioned parquet corpus. First stage of a two-repository NLP project analyzing PM rhetoric; see `PROJECT_SUMMARY.md` for the full project and `CLAUDE.md` for conventions.
 
+Results, dashboard, and the analysis pipeline that consumes this corpus live in [`hansard-pm-nlp`](https://github.com/RedaAllab/hansard-pm-nlp).
+
+```mermaid
+flowchart LR
+    A[Hansard API] --> C[hansard-pm-extraction]
+    B[Members API] --> C
+    C --> D["Parquet corpus\n(data_README.md + schema.json)"]
+    D --> E["hansard-pm-nlp\n(analysis + dashboard)"]
+```
+
 ## Pipeline
 
 1. `python -m hansard_pm_extraction.pm_tenures`: resolve each PM's member id and Prime Minister tenure window via the Members API.
