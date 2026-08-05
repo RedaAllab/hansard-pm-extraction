@@ -68,7 +68,7 @@ Full technical detail — stack, conventions, constraints — lives in `CLAUDE.m
 | 1 | Extraction: PM tenure resolution (Members API), ingestion pipeline, parquet export | 0 | Done: 10,673 contributions, 5 PM tenures, `data/corpus/` |
 | 2 | Corpus construction: cleaning, deduplication, debate-type tagging | 1 | Done, in `hansard-pm-nlp` repo (sibling folder) |
 | 3 | EDA & lexical baseline | 2 | Done, in `hansard-pm-nlp` (`data/processed/eda_report.md`) |
-| 4 | Sentiment / affect / hedging layer | 3 | Not started |
+| 4 | Sentiment / affect / hedging layer | 3 | Done, in `hansard-pm-nlp` (`data/processed/affect_report.md`) |
 | 5 | Topic modeling (LDA vs. BERTopic) | 3 | Not started |
 | 6 | Style features & supervised PM classifier | 3 | Not started |
 | 7 | Event-study statistical modeling | 4, 5, 6 | Not started |
