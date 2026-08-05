@@ -73,7 +73,7 @@ Full technical detail — stack, conventions, constraints — lives in `CLAUDE.m
 | 6 | Style features & supervised PM classifier | 3 | Done, in `hansard-pm-nlp` (`data/processed/phase6_classifier_report.md`) — accuracy 0.915 (logreg) / 0.949 (HGB) vs 0.333/0.492 chance |
 | 7 | Event-study statistical modeling | 4, 5, 6 | Done, in `hansard-pm-nlp` (`data/processed/phase7_event_study_report.md`) — no H2/H3 effect survives BH correction, documented as a genuine null result |
 | 8 | Interactive dashboard | 4–7 | Done, in `hansard-pm-nlp` (`app/app.py`) — Streamlit, 4 tabs: overview/radar, sentiment & certainty, topics, PM classifier |
-| 9 | Testing, CI, documentation (ongoing) | — | Not started |
+| 9 | Testing, CI, documentation (ongoing) | — | Done, both repos — GitHub Actions CI, `hansard-pm-nlp` README added, fixed a silent exception-swallowing bug in `async_main` |
 | 10 | Publication: deployment, README polish, portfolio write-up | 8, 9 | Not started |
 
 ## Long-term evolutions
