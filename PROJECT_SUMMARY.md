@@ -76,6 +76,15 @@ Full technical detail — stack, conventions, constraints — lives in `CLAUDE.m
 | 9 | Testing, CI, documentation (ongoing) | — | Done, both repos — GitHub Actions CI, `hansard-pm-nlp` README added, fixed a silent exception-swallowing bug in `async_main` |
 | 10 | Publication: deployment, README polish, portfolio write-up | 8, 9 | Done — READMEs polished (architecture diagram, results-by-hypothesis summary), deploy-blocking `requires-python` bug found and fixed after a live Streamlit Cloud attempt |
 
+## Post-v1.0 improvements
+
+Work done after the v1.0 dashboard went live, tracked separately from the numbered roadmap since it's iterative polish rather than sequential phases:
+
+| Item | Status | Notes |
+|---|---|---|
+| EDA notebooks | Done, in `hansard-pm-nlp` (`notebooks/`) | Three notebooks going past each phase report's single-number summaries: `01_corpus_overview.ipynb` (volume/PMQs split, sitting calendar, re-derived duplicate check that caught a stale count in `data_README.md`), `02_lexical_deep_dive.ipynb` (full distributions, direct visual case for MTLD over TTR), `03_sentiment_validation.ipynb` (VADER vs. transformer disagreement read from real examples — two distinct genre-specific failure modes, not "one method wins"). CI now executes them on every push. |
+| Dashboard visualization pass | Not started | Topics tab (14-way stacked area is hard to read, no crisis/PM-transition markers), stylometric radar (unstable min-max normalization, no sample-size cue for Truss), plus new charts (TF-IDF distinctive terms, PMQs-vs-other splits, before/after crisis box plots) — full critique and priority ranking discussed, not yet implemented. |
+
 ## Long-term evolutions
 
 Ideas deliberately deferred past v1, worth revisiting once the core pipeline is stable:
