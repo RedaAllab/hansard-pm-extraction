@@ -1,0 +1,89 @@
+# Project Summary — UK PM Rhetoric Analysis
+
+A portfolio NLP project analyzing how UK Prime Ministers' rhetoric has evolved since 2019, using Hansard parliamentary speech data.
+
+For coding conventions and standing rules, see `CLAUDE.md`. This document covers the *what* and *why*.
+
+## Vision
+
+Six Prime Ministers have sat at the despatch box since 2019 — Johnson, Truss, Sunak, Starmer, and, since July 2026, Andy Burnham — across Brexit's final stretch, Covid-19, the 2022 mini-budget crisis, the invasion of Ukraine, and a mid-term change of Labour leadership. That density of exogenous shocks makes the period an unusually good natural experiment for studying political rhetoric under pressure.
+
+The project treats each PM's Hansard contributions as a text corpus and asks two linked questions: does each PM have a measurably distinct rhetorical signature, and does that rhetoric shift — in sentiment, certainty, and topic — around major crises, in a way that depends on the governing party? The analysis is designed as a quasi-experimental event study rather than an open-ended exploration: hypotheses are stated up front (see `CLAUDE.md`, §2) and tested statistically, not just illustrated with charts.
+
+## Proposed features
+
+- A layered, independently-testable NLP pipeline (lexical → affect → topics → embeddings → style → statistics).
+- A supervised classifier that attributes an anonymized speech excerpt to the correct PM — a concrete, evaluable ML deliverable rather than only descriptive statistics.
+- An event-study statistical layer (regression with interaction terms, diff-in-differences) around named crisis windows, with multiple-testing correction.
+- A human-validated subsample for topic/frame labels, reporting inter-rater agreement — the same rigor already applied in the prior trans-rights project's manual framing scheme.
+- A deployed, filterable interactive dashboard (not just static notebooks).
+- A fully reproducible pipeline: pinned dependencies, fixed random seeds, a frozen and documented corpus cutoff.
+
+## Planned NLP analyses
+
+| Layer | Method | Purpose |
+|---|---|---|
+| Lexical baseline | Frequencies, n-grams, TF-IDF, readability (Flesch-Kincaid), lexical diversity (TTR/MTLD) | Establish a descriptive floor before modeling |
+| Sentiment / affect | VADER (baseline) vs. a pretrained transformer sentiment model | Compare a lightweight and a contextual approach; document the gap |
+| Hedging / certainty | Custom lexicon (modals, hedge verbs, intensity adverbs) | Especially relevant to PMQs, a genre built around evasiveness |
+| Topic modeling | LDA (gensim, lightweight baseline) vs. BERTopic (advanced) | Compared explicitly; final choice justified in the write-up |
+| Embeddings | Sentence-transformers + UMAP projection | Visualize semantic drift within and across PMs over time |
+| Style classification | Stylometric features + supervised classifier (logistic regression / gradient boosting), cross-validated | Tests H1; interpreted via feature importance / SHAP |
+| Named entity recognition | spaCy NER | Objectifies each PM's declared thematic priorities (countries, institutions, people) |
+| Event-study statistics | `statsmodels` regression with interaction terms, diff-in-differences | Tests H2 and H3 with proper inference, not just visual comparison |
+
+## Planned visualizations
+
+- **Stacked topic timeline** — topic weight over time, with vertical markers at PM transitions.
+- **Event-study plot** — an affect/uncertainty index over time, shaded crisis windows, confidence bands.
+- **Comparative radar chart** — stylometric profile per PM (readability, lexical diversity, hedging rate, mean sentiment, sentence length).
+- **UMAP embedding projection** — speeches positioned in 2D, colored by PM and/or period, hoverable excerpts.
+- **Word-shift plot** — which words drive the change in an index between two time windows.
+- **Cross-filtered dashboard** — PM, period, debate type, and party filters driving all of the above.
+- **Interactive confusion matrix** — for the PM-attribution classifier.
+
+## Overall architecture
+
+```mermaid
+flowchart TD
+    A[Hansard API] --> C[hansard-pm-extraction]
+    B[Members API] --> C
+    C --> D[Parquet corpus\ndata_README.md + schema.json]
+    D --> E[hansard-pm-nlp]
+    E --> F[Interactive dashboard]
+```
+
+Two repositories, linked by a versioned parquet corpus, mirroring the split used in the prior trans-rights project:
+
+- **`hansard-pm-extraction`** resolves each PM's tenure window via the Members API and pulls their Hansard contributions within it, using the same async ingestion pattern (retry with backoff, bounded concurrency, atomic writes) developed previously.
+- **`hansard-pm-nlp`** covers cleaning, the NLP layers above, the statistical modeling, and the dashboard.
+
+Full technical detail — stack, conventions, constraints — lives in `CLAUDE.md`.
+
+## Development roadmap
+
+| Phase | Description | Depends on | Status |
+|---|---|---|---|
+| 0 | Scoping: finalize hypotheses, corpus cutoff date, PM tenure list, dated and justified crisis windows | — | Done, see `PHASE0_SCOPING.md` |
+| 1 | Extraction: PM tenure resolution (Members API), ingestion pipeline, parquet export | 0 | Done: 10,673 contributions, 5 PM tenures, `data/corpus/` |
+| 2 | Corpus construction: cleaning, deduplication, debate-type tagging | 1 | Not started |
+| 3 | EDA & lexical baseline | 2 | Not started |
+| 4 | Sentiment / affect / hedging layer | 3 | Not started |
+| 5 | Topic modeling (LDA vs. BERTopic) | 3 | Not started |
+| 6 | Style features & supervised PM classifier | 3 | Not started |
+| 7 | Event-study statistical modeling | 4, 5, 6 | Not started |
+| 8 | Interactive dashboard | 4–7 | Not started |
+| 9 | Testing, CI, documentation (ongoing) | — | Not started |
+| 10 | Publication: deployment, README polish, portfolio write-up | 8, 9 | Not started |
+
+## Long-term evolutions
+
+Ideas deliberately deferred past v1, worth revisiting once the core pipeline is stable:
+
+- Extend beyond the PM to Leaders of the Opposition, for a genuinely two-sided rhetorical comparison.
+- Cross-country comparison using other Westminster-style Hansard corpora (Canada, Australia, New Zealand).
+- A fine-tuned, domain-specific sentiment/stance model instead of relying solely on general-purpose pretrained models.
+- A public read-only API or downloadable release of the cleaned corpus, for reuse by others.
+- A living dashboard that re-runs on a deliberate cadence to track Andy Burnham's tenure as it accumulates enough data for a full stylometric profile.
+- Linking rhetorical shifts to legislative outcomes (e.g. voting records, bill outcomes) to test a "rhetoric vs. action" gap.
+- A short academic-style write-up (methods + results) as a companion to the GitHub README, aimed at a technical but non-specialist audience.
