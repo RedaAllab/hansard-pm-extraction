@@ -83,7 +83,8 @@ Work done after the v1.0 dashboard went live, tracked separately from the number
 | Item | Status | Notes |
 |---|---|---|
 | EDA notebooks | Done, in `hansard-pm-nlp` (`notebooks/`) | Three notebooks going past each phase report's single-number summaries: `01_corpus_overview.ipynb` (volume/PMQs split, sitting calendar, re-derived duplicate check that caught a stale count in `data_README.md`), `02_lexical_deep_dive.ipynb` (full distributions, direct visual case for MTLD over TTR), `03_sentiment_validation.ipynb` (VADER vs. transformer disagreement read from real examples — two distinct genre-specific failure modes, not "one method wins"). CI now executes them on every push. |
-| Dashboard visualization pass | Not started | Topics tab (14-way stacked area is hard to read, no crisis/PM-transition markers), stylometric radar (unstable min-max normalization, no sample-size cue for Truss), plus new charts (TF-IDF distinctive terms, PMQs-vs-other splits, before/after crisis box plots) — full critique and priority ranking discussed, not yet implemented. |
+| Dashboard theme fix | Done, in `hansard-pm-nlp` (`.streamlit/config.toml`) | Pinned `theme.base = "dark"`. Without it, Streamlit followed the *viewer's* OS/browser color-scheme preference, and every chart's Plotly styling assumes a dark canvas — a light-mode viewer got Plotly's pastel palette on white, illegible on some charts. This is what produced the washed-out screenshots that kicked off the dashboard critique. |
+| Dashboard visualization pass (remaining) | Not started | Topics tab (14-way stacked area is hard to read, no crisis/PM-transition markers), stylometric radar (unstable min-max normalization, no sample-size cue for Truss), plus new charts (TF-IDF distinctive terms, PMQs-vs-other splits, before/after crisis box plots) — full critique and priority ranking discussed, not yet implemented. |
 
 ## Long-term evolutions
 
