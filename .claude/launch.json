@@ -13,6 +13,18 @@
         "true"
       ],
       "port": 8501
+    },
+    {
+      "name": "sentiment-annotation-tool",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8902",
+        "--directory",
+        "/Users/reda/Desktop/hansard-pm-nlp/data/processed"
+      ],
+      "port": 8902
     }
   ]
 }
